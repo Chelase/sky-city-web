@@ -9,7 +9,8 @@ export default defineConfig({
     vue(),
   ],
   server: {
-    host: '0.0.0.0'
+    open: true, // 自动在浏览器打开
+    host: '0.0.0.0' // 开放网络
   },
   resolve: {
     alias: {

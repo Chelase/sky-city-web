@@ -7,15 +7,25 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: () => import('@/views/Layout/index.vue'),
+      redirect: '/hall',
       children: [
-        { path: '/hall',  component: () => import('@/views/Layout/hall.vue') },
-        { path: '/user', component: () => import('@/views/Layout/user.vue') },
+        { path: '/hall',  component: () => import('@/views/Hall/index.vue') },
       ]
+    },
+    {
+      path: '/welcome',
+      name: 'welcome',
+      component: () => import('@/views/Login/index.vue')
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('@/views/Login/register.vue')
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import('@/views/Login/index.vue')
+      component: () => import('@/views/Login/login.vue')
     }
   ]
 })

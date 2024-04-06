@@ -1,11 +1,12 @@
 <script setup>
-
+import sidebar from './components/sidebar .vue'
 </script>
 
 <template>
-  <RouterLink to="/user">用户</RouterLink>
-  <RouterLink to="/hall">大厅</RouterLink>
-  <main>
-    <RouterView/>
-  </main>
+  <div class="bg-blue-500">
+    <main>
+      <sidebar />
+      <RouterView/>
+    </main>
+  </div>
 </template>
