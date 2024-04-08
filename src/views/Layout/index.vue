@@ -1,11 +1,11 @@
 <script setup>
-import sidebar from './components/sidebar .vue'
+import navbar from './components/navbar.vue'
 </script>
 
 <template>
-  <div class="bg-blue-500">
+  <div>
     <main>
-      <sidebar />
+      <navbar />
       <RouterView/>
     </main>
   </div>
