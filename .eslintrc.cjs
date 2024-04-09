@@ -7,5 +7,10 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 'latest'
+  },
+  rules: {
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off', // 生产模式禁止使用console
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off', // 生产模式禁止使用debugger
+    'vue/multi-word-component-names': "off" // 关闭vue组件名称校验
   }
 }
