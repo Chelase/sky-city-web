@@ -1,0 +1,14 @@
+.animation-top {
+    animation: top 1s;
+}
+
+@keyframes top {
+    0% {
+        opacity: 0;
+        margin-top: -100px;
+    }
+    100% {
+        opacity: 1;
+        margin-top: 0;
+    }
+}
