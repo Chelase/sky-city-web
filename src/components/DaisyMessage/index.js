@@ -18,5 +18,4 @@ const hide = () => {
 
 export default {
     error,
-    hide,
 };

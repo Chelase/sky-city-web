@@ -1,5 +1,6 @@
 import axios from 'axios'
-import DaisyMessage from '@/components/DaisyMessage'
+// import DaisyMessage from '@/components/DaisyMessage'
+import Message from "@/plugins/Message/index.js"
 // import useUserStore from '@/stores/modules/user'
 
 const api = axios.create({
@@ -43,7 +44,9 @@ api.interceptors.response.use(
         if (response.data.Success === false) {
             if (response.data.Msg !== '') {
                 // 错误提示
-                DaisyMessage.error(response.data.Msg)
+                Message.error(response.data.Msg)
+                // 自定义错误提示
+                // DaisyMessage.error(response.data.Msg)
                 return Promise.reject(response.data)
             }
         }
@@ -60,7 +63,8 @@ api.interceptors.response.use(
         else if (message.includes('Request failed with status code')) {
             message = `接口${message.substr(message.length - 3)}异常`
         }
-        DaisyMessage.error(message)
+        // DaisyMessage.error(message)
+        Message.error(message)
         return Promise.reject(error)
     },
 )
