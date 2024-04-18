@@ -9,10 +9,10 @@ const num = ref(0)
 
 <template>
   <RouterView />
-  <button class="btn" @click="Message.info('测试：' + ++num)">测试</button>
-  <button class="btn btn-success" @click="Message.success('测试：' + ++num)">测试</button>
-  <button class="btn btn-warning" @click="Message.warning('测试：' + ++num)">测试</button>
-  <button class="btn btn-error" @click="Message.error('测试：' + ++num)">测试</button>
+  <button class="btn" @click="Message.info('信息：' + ++num)">信息</button>
+  <button class="btn btn-success" @click="Message.success('成功：' + ++num)">成功</button>
+  <button class="btn btn-warning" @click="Message.warning('警告：' + ++num)">警告</button>
+  <button class="btn btn-error" @click="Message.error('危险：' + ++num)">危险</button>
 <!--  <error />-->
 </template>
 
