@@ -1,12 +1,29 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import MessageApi from '@/api/modules/Message.js'
+import { HubConnectionBuilder } from '@microsoft/signalr';
 
 const message = ref('')
 
 onMounted(() => console.log('Msg：',getMsg()))
 
 const MsgList = ref([])
+
+const connection = new HubConnectionBuilder()
+    .withUrl('https://localhost:7139/MessageHub')
+    .build();
+
+connection.start()
+    .then(() => {
+      console.log('SignalR Connected');
+    })
+    .catch(err => console.error(err));
+
+connection.on('ReceiveMessage', message => {
+  console.log('Received message:', message);
+  MsgList.value.push(message)
+});
+
 const getMsg = async () => {
   MsgList.value = await MessageApi.getMessage()
 }
