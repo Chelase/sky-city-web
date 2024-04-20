@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import MessageApi from '@/api/modules/Message.js'
-import { HubConnectionBuilder } from '@microsoft/signalr';
+import { HubConnectionBuilder } from '@microsoft/signalr'
 
 const message = ref('')
 
