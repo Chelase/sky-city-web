@@ -1,5 +1,7 @@
 <script setup>
+import useUserStore from "@/stores/user.js";
 
+const userStore = useUserStore()
 </script>
 
 <template>
@@ -34,7 +36,7 @@
                 </a>
               </li>
               <li><a>设置</a></li>
-              <li><a>退出登录</a></li>
+              <li @click="userStore.logout()"><a>退出登录</a></li>
             </ul>
           </div>
           <div class="navbar-end">
