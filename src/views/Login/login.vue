@@ -13,7 +13,8 @@ const FormData = ref({
   password: ''
 })
 
-async function userLogin ()  {
+async function userLogin (event)  {
+  event.preventDefault()
   console.log(FormData.value)
   await userStore.Login(FormData.value)
   await router.push(redirect.value)
@@ -36,15 +37,15 @@ async function userLogin ()  {
 
         <h1 class="text-xl md:text-2xl font-bold leading-tight mt-12">登录您的账户</h1>
 
-        <form class="mt-6">
+        <form class="mt-6" @submit="userLogin">
           <div>
             <label class="block text-gray-700">账户名称</label>
-            <input type="text" name="" id="" v-model="FormData.name" placeholder="输入账户名称" class="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none" autofocus autocomplete required>
+            <input type="text" name="" id="" v-model="FormData.name" placeholder="输入账户名称" class="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none" required>
           </div>
 
           <div class="mt-4">
             <label class="block text-gray-700">密码</label>
-            <input type="password" name="" id="" v-model="FormData.password" placeholder="输入密码" class="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500
+            <input type="password" name="" id="" v-model="FormData.password" minlength="6" maxlength="18" placeholder="输入密码" class="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500
                 focus:bg-white focus:outline-none" required>
           </div>
 
@@ -52,8 +53,8 @@ async function userLogin ()  {
             <a href="#" class="text-sm font-semibold text-gray-700 hover:text-blue-700 focus:text-blue-700">忘记密码？</a>
           </div>
 
-          <button type="button" class="w-full block bg-indigo-500 hover:bg-indigo-400 focus:bg-indigo-400 text-white font-semibold rounded-lg
-              px-4 py-3 mt-6" @click="userLogin">登录</button>
+          <button type="submit" class="w-full block bg-indigo-500 hover:bg-indigo-400 focus:bg-indigo-400 text-white font-semibold rounded-lg
+              px-4 py-3 mt-6">登录</button>
         </form>
 
         <hr class="my-6 border-gray-300 w-full">
@@ -68,8 +69,8 @@ async function userLogin ()  {
           </div>
         </button>
 
-        <p class="mt-8">Need an account? <a href="#" class="text-blue-500 hover:text-blue-700 font-semibold">Create an
-          account</a></p>
+        <p class="mt-8">Need an account? <router-link to="/register" class="text-blue-500 hover:text-blue-700 font-semibold">Create an
+          account</router-link></p>
 
 
       </div>

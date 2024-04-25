@@ -5,7 +5,7 @@ import { HubConnectionBuilder } from '@microsoft/signalr'
 
 const message = ref('')
 
-onMounted(() => console.log('Msg：',getMsg()))
+// onMounted(() => console.log('Msg：',getMsg()))
 
 const MsgList = ref([])
 
@@ -24,9 +24,10 @@ connection.on('ReceiveMessage', message => {
   MsgList.value.push(message)
 });
 
-const getMsg = async () => {
-  MsgList.value = await MessageApi.getMessage()
-}
+// const getMsg = async () => {
+//   const { list } = await MessageApi.getMessage()
+//   MsgList.value = list
+// }
 
 const sendMsg = async () => {
   if (message.value) {

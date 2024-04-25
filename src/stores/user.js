@@ -4,7 +4,7 @@ import userApi from '@/api/modules/user.js'
 import router from "@/router/index.js"
 
 const useUserStore = defineStore('user', () => {
-    const UserInfo = ref(localStorage.userInfo ?? {})
+    const UserInfo = ref(localStorage.UserInfo ?? {})
     const Token = ref(localStorage.Token ?? '')
     const isLogin = computed(() => !!Token.value)
 
