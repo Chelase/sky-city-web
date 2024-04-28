@@ -13,7 +13,6 @@ const FormData = ref({
 
 async function userRegister (event)  {
   event.preventDefault()
-  console.log('Register FormData：',FormData.value)
   await userStore.register(FormData.value)
   await router.push('/welcome')
 }

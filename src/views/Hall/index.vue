@@ -2,8 +2,16 @@
 import { ref, onMounted } from 'vue'
 import MessageApi from '@/api/modules/Message.js'
 import { HubConnectionBuilder } from '@microsoft/signalr'
+import useUserStore from "@/stores/user.js"
+import {storeToRefs} from "pinia"
 
-const message = ref('')
+const userStore = useUserStore()
+const { UserId, UserName } = storeToRefs(userStore)
+const data = ref({
+  userId: UserId,
+  userName: UserName,
+  msg: ''
+})
 
 // onMounted(() => console.log('Msg：',getMsg()))
 
@@ -21,6 +29,7 @@ connection.start()
 
 connection.on('ReceiveMessage', message => {
   console.log('Received message:', message);
+  message.sendTime = message.sendTime.replace('T',' ')
   MsgList.value.push(message)
 });
 
@@ -29,11 +38,10 @@ connection.on('ReceiveMessage', message => {
 //   MsgList.value = list
 // }
 
-const sendMsg = async () => {
-  if (message.value) {
-    await MessageApi.AddMessage(message.value)
-    message.value = ''
-    // await getMsg()
+async function sendMsg () {
+  if (data.value.msg) {
+    await MessageApi.AddMessage(data.value)
+    data.value.msg = ''
   }
 }
 </script>
@@ -41,7 +49,7 @@ const sendMsg = async () => {
 <template>
   <div>
     <input
-        v-model="message"
+        v-model="data.msg"
         type="text"
         placeholder="请输入"
         class="input
@@ -52,7 +60,7 @@ const sendMsg = async () => {
     />
     <button class="btn btn-primary" @click="sendMsg()">发送</button>
   </div>
-  <div class="chat chat-start" v-for="item in MsgList" :key="item.id">
+  <div class="chat" :class="userStore.UserId != item.userId ? 'chat-start' : 'chat-end'" v-for="item in MsgList" :key="item.id">
     <div class="chat-image avatar">
       <div class="w-10 rounded-full">
         <img alt="Tailwind CSS chat bubble component"
@@ -60,24 +68,11 @@ const sendMsg = async () => {
       </div>
     </div>
     <div class="chat-header">
-      欧比旺·克诺比
+      {{item.userName}}
       <time class="text-xs opacity-50">{{item.sendTime}}</time>
     </div>
-    <div class="chat-bubble">{{item.msg}}</div>
+    <div class="chat-bubble" :class="userStore.UserId != item.userId ? 'chat-bubble-info' : ''">{{item.msg}}</div>
   </div>
-<!--  <div class="chat chat-end">-->
-<!--    <div class="chat-image avatar">-->
-<!--      <div class="w-10 rounded-full">-->
-<!--        <img alt="Tailwind CSS chat bubble component"-->
-<!--             src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"/>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="chat-header">-->
-<!--      阿纳金-->
-<!--      <time class="text-xs opacity-50">12:46</time>-->
-<!--    </div>-->
-<!--    <div class="chat-bubble">我恨你！</div>-->
-<!--  </div>-->
 </template>
 
 <style scoped>

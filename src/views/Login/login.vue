@@ -15,7 +15,6 @@ const FormData = ref({
 
 async function userLogin (event)  {
   event.preventDefault()
-  console.log(FormData.value)
   await userStore.Login(FormData.value)
   await router.push(redirect.value)
 }
