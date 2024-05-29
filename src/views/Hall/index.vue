@@ -29,9 +29,40 @@ connection.start()
 
 connection.on('ReceiveMessage', message => {
   console.log('Received message:', message);
-  message.sendTime = message.sendTime.replace('T',' ')
+  // 2024-04-28 11:45:08
+  // message.sendTime = message.sendTime.slice(11)
   MsgList.value.push(message)
 });
+
+async function sendMessage(message) {
+  try {
+    await connection.send("SendToAll", message); // 调用 Hub 上的 SendMessage 方法
+
+  } catch (err) {
+    return console.error(`Error sending message: ${err.toString()}`);
+  }
+}
+
+// 创建WebSocket连接:
+// const ws = new WebSocket('https://localhost:7139/MessageHub');
+// // 连接成功时:
+// ws.addEventListener('open', function (event) {
+//   console.log('websocket connected.');
+//   ws.send({userId: UserId, userName: UserName, msg: '连接成功'});
+// });
+// // 收到消息时:
+// ws.addEventListener('message', function (event) {
+//   console.log('message: ' + event.data);
+//   // event.data.sendTime = event.data.sendTime.slice(11)
+//   MsgList.value.push(event.data)
+//   // TODO:
+// });
+// // 连接关闭时:
+// ws.addEventListener('close', function () {
+//   console.log('websocket closed.');
+// });
+// // 绑定到全局变量:
+// window.chatWs = ws;
 
 // const getMsg = async () => {
 //   const { list } = await MessageApi.getMessage()
@@ -40,7 +71,9 @@ connection.on('ReceiveMessage', message => {
 
 async function sendMsg () {
   if (data.value.msg) {
-    await MessageApi.AddMessage(data.value)
+    await sendMessage(data.value)
+    // await MessageApi.AddMessage(data.value)
+    // window.chatWs.send(data.value)
     data.value.msg = ''
   }
 }
@@ -71,7 +104,7 @@ async function sendMsg () {
       {{item.userName}}
       <time class="text-xs opacity-50">{{item.sendTime}}</time>
     </div>
-    <div class="chat-bubble" :class="userStore.UserId != item.userId ? 'chat-bubble-info' : ''">{{item.msg}}</div>
+    <div class="chat-bubble" :class="userStore.UserId != item.userId ? '' : 'chat-bubble-info'">{{item.msg}}</div>
   </div>
 </template>
 
