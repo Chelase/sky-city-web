@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Message from "@/plugins/Message/index.js"
 import useUserStore from '@/stores/user.js'
+import {ElMessage} from "element-plus"
 
 const api = axios.create({
     baseURL: import.meta.env.VITE_APP_API_BASEURL,
@@ -31,7 +32,8 @@ api.interceptors.response.use(
         if (response.data.Success === false) {
             if (response.data.Msg !== '') {
                 // 错误提示
-                Message.error(response.data.Msg)
+                // Message.error(response.data.Msg)
+                ElMessage.error(response.data.Msg)
                 return Promise.reject(response.data)
             }
         }
@@ -48,7 +50,7 @@ api.interceptors.response.use(
         else if (message.includes('Request failed with status code')) {
             message = `接口${message.substr(message.length - 3)}异常`
         }
-        Message.error(message)
+        ElMessage.error(message)
         return Promise.reject(error)
     },
 )

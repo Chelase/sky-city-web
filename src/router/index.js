@@ -14,20 +14,10 @@ const router = createRouter({
       ]
     },
     {
-      path: '/welcome',
-      name: 'welcome',
-      component: () => import('@/views/Login/index.vue')
-    },
-    {
-      path: '/register',
-      name: 'register',
-      component: () => import('@/views/Login/register.vue')
-    },
-    {
       path: '/login',
       name: 'login',
-      component: () => import('@/views/Login/login.vue')
-    }
+      component: () => import('@/views/Login/index.vue')
+    },
   ]
 })
 
@@ -36,7 +26,7 @@ router.beforeEach(async (to, from, next) => {
   // 是否已登录
   if (userStore.isLogin) {
     // 如果已登录状态下，进入登录页会强制跳转到主页
-    if (to.name === 'welcome' || to.name === 'register' || to.name === 'login') {
+    if (to.name === 'login') {
       next({
         name: 'home',
         replace: true,
@@ -45,11 +35,11 @@ router.beforeEach(async (to, from, next) => {
       next()
     }
   } else {
-    if (to.name === 'welcome' || to.name === 'register' || to.name === 'login') {
+    if (to.name === 'login') {
       next()
     } else {
       next({
-        name: 'welcome',
+        name: 'login',
         query: {
           redirect: to.fullPath !== '/' ? to.fullPath : undefined,
         },

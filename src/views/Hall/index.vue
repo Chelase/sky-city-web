@@ -10,10 +10,8 @@ const { UserId, UserName } = storeToRefs(userStore)
 const data = ref({
   userId: UserId,
   userName: UserName,
-  msg: ''
+  msg: '',
 })
-
-// onMounted(() => console.log('Msg：',getMsg()))
 
 const MsgList = ref([])
 
@@ -29,51 +27,21 @@ connection.start()
 
 connection.on('ReceiveMessage', message => {
   console.log('Received message:', message);
-  // 2024-04-28 11:45:08
   // message.sendTime = message.sendTime.slice(11)
   MsgList.value.push(message)
 });
 
-async function sendMessage(message) {
-  try {
-    await connection.send("SendToAll", message); // 调用 Hub 上的 SendMessage 方法
+onMounted(() => getMsg())
 
-  } catch (err) {
-    return console.error(`Error sending message: ${err.toString()}`);
-  }
+async function getMsg() {
+  const { list } = await MessageApi.getMessage()
+  MsgList.value = list
+  console.log(MsgList.value);
 }
-
-// 创建WebSocket连接:
-// const ws = new WebSocket('https://localhost:7139/MessageHub');
-// // 连接成功时:
-// ws.addEventListener('open', function (event) {
-//   console.log('websocket connected.');
-//   ws.send({userId: UserId, userName: UserName, msg: '连接成功'});
-// });
-// // 收到消息时:
-// ws.addEventListener('message', function (event) {
-//   console.log('message: ' + event.data);
-//   // event.data.sendTime = event.data.sendTime.slice(11)
-//   MsgList.value.push(event.data)
-//   // TODO:
-// });
-// // 连接关闭时:
-// ws.addEventListener('close', function () {
-//   console.log('websocket closed.');
-// });
-// // 绑定到全局变量:
-// window.chatWs = ws;
-
-// const getMsg = async () => {
-//   const { list } = await MessageApi.getMessage()
-//   MsgList.value = list
-// }
 
 async function sendMsg () {
   if (data.value.msg) {
-    await sendMessage(data.value)
-    // await MessageApi.AddMessage(data.value)
-    // window.chatWs.send(data.value)
+    await MessageApi.AddMessage(data.value)
     data.value.msg = ''
   }
 }
@@ -97,7 +65,7 @@ async function sendMsg () {
     <div class="chat-image avatar">
       <div class="w-10 rounded-full">
         <img alt="Tailwind CSS chat bubble component"
-             src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"/>
+             src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"/>
       </div>
     </div>
     <div class="chat-header">
