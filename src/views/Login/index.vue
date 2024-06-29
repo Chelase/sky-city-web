@@ -7,23 +7,26 @@ import Login from './components/login.vue'
 const time = ref('') // 时间
 const date_time = ref('') //日期
 const is2Login = ref(false) // 控制login组件
+let timingClose = null
 
 document.onmousedown = () => {
   toLogin()
 }
 
 document.onkeydown = function(event){
-  console.log(event);
   if (event.key === 'Enter')
-    is2Login.value = true
-  else if (event.key === 'Escape')
+    toLogin()
+  else if (event.key === 'Escape' && is2Login.value) {
     is2Login.value = false
+    clearTimeout(timingClose)
+  }
 }
 
 // 准备登录
 function toLogin() {
+  clearTimeout(timingClose)
   is2Login.value = true
-  setTimeout(() => {
+  timingClose = setTimeout(() => {
     is2Login.value = false
   },30000)
 }
@@ -45,13 +48,13 @@ function getNowTime() {
 }
 
 // 定时每秒获取
-const timing = setInterval(() => {
+const timingDate = setInterval(() => {
   getNowTime()
 },1000)
 
 // 离开页面时销毁定时器
 onBeforeUnmount(() => {
-  clearInterval(timing)
+  clearInterval(timingDate)
 })
 
 </script>
@@ -64,7 +67,7 @@ onBeforeUnmount(() => {
       w-screen
       h-screen
       flex-center">
-    <div class="container h-full text-center">
+    <div class="container h-full text-center" v-show="!is2Login">
       <div class="w-auto h-auto mt-24">
         <strong class="text-8xl">{{time}}</strong> <br>
         <strong class="text-base mt-1.5">{{date_time}}</strong>
@@ -78,7 +81,7 @@ onBeforeUnmount(() => {
     </div>
   </div>
 
-  <Login v-if="is2Login" />
+  <Login v-if="is2Login" :is2-login="is2Login" />
 </template>
 
 <style lang="postcss" scoped>
