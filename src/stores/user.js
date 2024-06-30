@@ -29,9 +29,9 @@ const useUserStore = defineStore('user', () => {
         localStorage.removeItem('UserName')
         Token.value = ''
         await router.push({
-            name: 'welcome',
+            name: 'login',
             query: {
-                ...(router.currentRoute.value.path !== '/' && router.currentRoute.value.name !== 'welcome' && {redirect}),
+                ...(router.currentRoute.value.path !== '/' && router.currentRoute.value.name !== 'login' && {redirect}),
             },
         })
     }

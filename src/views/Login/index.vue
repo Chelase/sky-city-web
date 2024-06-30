@@ -55,6 +55,8 @@ const timingDate = setInterval(() => {
 // 离开页面时销毁定时器
 onBeforeUnmount(() => {
   clearInterval(timingDate)
+  document.onmousedown = null
+  document.onkeydown = null
 })
 
 </script>
@@ -67,25 +69,58 @@ onBeforeUnmount(() => {
       w-screen
       h-screen
       flex-center">
-    <div class="container h-full text-center" v-show="!is2Login">
-      <div class="w-auto h-auto mt-24">
-        <strong class="text-8xl">{{time}}</strong> <br>
-        <strong class="text-base mt-1.5">{{date_time}}</strong>
-      </div>
-      <div class="w-auto h-auto mt-36">
-        <div class="bg-black w-10 h-10 m-auto flex-center">
-          <img class="w-8 h-8 m-auto" src="@/assets/images/login/地球.png" alt="">
+    <transition name="top">
+      <div class="container h-full text-center" v-show="!is2Login">
+        <div class="w-auto h-auto mt-24">
+          <strong class="text-8xl">{{time}}</strong> <br>
+          <strong class="text-base mt-1.5">{{date_time}}</strong>
         </div>
-        <strong>请按回车建</strong>
+        <div class="w-auto h-auto mt-36">
+          <div class="bg-black w-10 h-10 m-auto flex-center">
+            <img class="w-8 h-8 m-auto" src="@/assets/images/login/地球.png" alt="">
+          </div>
+          <strong>欢迎来到天空之城</strong>
+        </div>
       </div>
-    </div>
+    </transition>
   </div>
 
-  <Login v-if="is2Login" :is2-login="is2Login" />
+  <transition>
+    <Login v-if="is2Login" />
+  </transition>
+
 </template>
 
 <style lang="postcss" scoped>
 .container {
   color: white;
+}
+
+.v-enter-active,.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,.v-leave-to {
+  opacity: 0;
+}
+
+.top-enter-active, .top-leave-active {
+  transition: all .5s;
+}
+.top-enter-from {
+  position: fixed;
+  top: -999px;
+}
+.top-enter-to {
+  position: fixed;
+  top: 0;
+}
+.top-leave-from {
+  position: fixed;
+  top: 0;
+}
+.top-leave-to {
+  position: fixed;
+  top: -999px;
 }
 </style>
